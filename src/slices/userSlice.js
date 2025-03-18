@@ -1,19 +1,22 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   user: null,
   token: null,
-  status: 'idle', // idle | loading | succeeded | failed
+  status: "idle", // idle | loading | succeeded | failed
   error: null,
 };
 
 // Thunk to handle async registration
 export const registerUser = createAsyncThunk(
-  'user/register',
+  "user/register",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('https://your-backend-api.com/register', userData);
+      const response = await axios.post(
+        "https://your-backend-api.com/register",
+        userData
+      );
       return response.data; // Assume the backend returns user and token
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -22,22 +25,22 @@ export const registerUser = createAsyncThunk(
 );
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.user = action.payload.user;
         state.token = action.payload.token;
-        window.sessionStorage.setItem('token', action.payload.token); // Save token to sessionStorage
+        window.sessionStorage.setItem("token", action.payload.token); // Save token to sessionStorage
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       });
   },
