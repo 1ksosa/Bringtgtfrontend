@@ -25,9 +25,8 @@ const Registration = () => {
     e.preventDefault();
     const resultAction = await dispatch(registerUser(formData));
 
-    // If registration is successful, redirect to Home
     if (registerUser.fulfilled.match(resultAction)) {
-      navigate('/home'); // Redirect to home page
+      navigate('/home');
     }
   };
 

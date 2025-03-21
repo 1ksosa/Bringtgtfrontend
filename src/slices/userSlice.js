@@ -4,11 +4,11 @@ import axios from "axios";
 const initialState = {
   user: null,
   token: null,
-  status: "idle", // idle | loading | succeeded | failed
+  status: "idle", 
   error: null,
 };
 
-// Thunk to handle async registration
+
 export const registerUser = createAsyncThunk(
   "user/register",
   async (userData, { rejectWithValue }) => {
@@ -17,7 +17,7 @@ export const registerUser = createAsyncThunk(
         "https://your-backend-api.com/register",
         userData
       );
-      return response.data; // Assume the backend returns user and token
+      return response.data; 
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -37,7 +37,7 @@ const userSlice = createSlice({
         state.status = "succeeded";
         state.user = action.payload.user;
         state.token = action.payload.token;
-        window.sessionStorage.setItem("token", action.payload.token); // Save token to sessionStorage
+        window.sessionStorage.setItem("token", action.payload.token); 
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";
